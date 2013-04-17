@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="json-parsing">
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.7" />
+	<property name="source" value="1.7" />
+	
+	<path id="json-parsing.classpath">
+		<pathelement location="bin" />
+		<pathelement location="json-20090211.jar" />
+	</path>
+	
+	<target name="init">
+		<mkdir dir="bin" />
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+				
+	<target depends="init" name="build">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" destdir="bin">
+			<src path="src" />
+			<classpath refid="json-parsing.classpath" />
+		</javac>
+	</target>
+	
+	<target name="package" depends="build">
+	     <jar destfile="${ant.project.name}.jar" basedir="bin"/>
+	</target>
+	
+	<target name="sample1">
+		<java classname="eu.activelogic.json.parser.JSONFileGenerator"
+			failonerror="true" fork="yes">
+			<arg line="UbuntuFile.js" />
+			<classpath refid="json-parsing.classpath" />
+		</java>
+	</target>
+	
+	<target name="sample2">
+		<java classname="eu.activelogic.json.parser.JSONFileGenerator"
+			failonerror="true" fork="yes">
+			<arg line="UbuntuVolumes.js" />
+			<classpath refid="json-parsing.classpath" />
+		</java>
+	</target>
+	
+</project>
