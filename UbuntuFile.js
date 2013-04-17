@@ -20,7 +20,8 @@
       "size":"integer:rw",
       "has_children":"boolean:ro",
       "is_root":"boolean:ro",
-      "children":"list:type:UONode"
+      "children":"list:type:UONode",
+      "child":"type:UONode:ro",
    },
    "kind":"directory",
    "when_created":"2010-10-04T20:06:47Z",

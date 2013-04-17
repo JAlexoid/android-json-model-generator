@@ -41,7 +41,7 @@ public class JSONFileGenerator {
 
 	    StringBuilder complexParse = new StringBuilder();
 
-	    parser.append("public ").append(className).append("(org.json.JSONObject in) throws Exception {\n super();\n");
+	    parser.append("public ").append(className).append("(org.json.JSONObject in) throws Exception {\n super(); \n");
 
 	    StringBuilder constructor = new StringBuilder();
 
@@ -128,6 +128,14 @@ public class JSONFileGenerator {
 		    enums.append("static enum ").append(enumName).append(" { \n").append(typeValue[1].toUpperCase().replaceAll("\\|", ", \n"))
 			    .append(";\n}\n");
 
+		    break;
+		case "type":
+		    fields.append(typeValue[1]).append(" ").append(name).append(";\n");
+		    
+		    parser.append("this.").append(name).append(" = new ").append(typeValue[1]).append("( safeJSONObject(in,\"").append(key).append("\"));\n");
+		    
+		    constructor.append("me.put(\"").append(key).append("\", this.").append(name).append(" != null ? this.").append(name).append(".toJSONObject() : null);\n");
+		    
 		    break;
 		case "list":
 		    fields.append("java.util.List<").append(typeValue[2]).append("> ").append(name).append(";\n");
@@ -250,6 +258,9 @@ public class JSONFileGenerator {
 		    "    }\n" +
 		    "    <T extends Enum<T>> T safeEnum(Class<T> clz, org.json.JSONObject in, String key) throws JSONException {\n" +
 		    "	return in.has(key) ? Enum.valueOf(clz, in.getString(key).toUpperCase()) : null;\n" +
+		    "    }\n" +
+		    "    org.json.JSONObject safeJSONObject(org.json.JSONObject in, String key) throws JSONException {\n" +
+		    "	return in.has(key)  && in.optJSONObject(key) != null ? in.optJSONObject(key) : new JSONObject();\n" +
 		    "    }\n");
 
 	    sb.append("}\n");

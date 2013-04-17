@@ -29,6 +29,7 @@ public class UONode {
     public final String publicUrl;
     public final Kind kind;
     public Integer size;
+    public final UONode child;
     public final String contentPath;
     public final Boolean hasChildren;
     public Boolean isPublic;
@@ -49,6 +50,7 @@ public class UONode {
 	this.publicUrl = safeString(in, "public_url");
 	this.kind = safeEnum(Kind.class, in, "kind");
 	this.size = safeInteger(in, "size");
+	this.child = new UONode(safeJSONObject(in, "child"));
 	this.contentPath = safeString(in, "content_path");
 	this.hasChildren = safeBoolean(in, "has_children");
 	this.isPublic = safeBoolean(in, "is_public");
@@ -87,6 +89,7 @@ public class UONode {
 	me.put("public_url", this.publicUrl);
 	me.put("kind", this.kind != null ? this.kind.toString() : null);
 	me.put("size", this.size);
+	me.put("child", this.child != null ? this.child.toJSONObject() : null);
 	me.put("content_path", this.contentPath);
 	me.put("has_children", this.hasChildren);
 	me.put("is_public", this.isPublic);
@@ -140,14 +143,7 @@ public class UONode {
 	return in.has(key) ? Enum.valueOf(clz, in.getString(key).toUpperCase()) : null;
     }
 
-    public String toString() {
-
-	StringBuilder sb = new StringBuilder();
-
-	sb.append("[").append(kind).append(" = ").append(this.resourcePath).append("; ").append(children).append("]");
-
-	return sb.toString();
-
+    org.json.JSONObject safeJSONObject(org.json.JSONObject in, String key) throws JSONException {
+	return in.has(key) && in.optJSONObject(key) != null ? in.optJSONObject(key) : new JSONObject();
     }
-
 }
