@@ -35,6 +35,9 @@ The object will have a constructor taking a JSONObject as input:
 			children":"list:type:UONode" - a list of types(expecting a constructor taking a JSONObject), alternatively a list of value objects Integer, String and similar.
 		}
 
+More docs at:
+http://www.panz.in/2013/04/lightweight-json-parsing-and-object.html
+
 License
 ===========
    Copyright 2013 Aleksandr Panzin
